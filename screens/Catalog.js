@@ -29,6 +29,7 @@ import AppActivityIndicator from "../components/AppActivityIndicator";
 import CustomAlert from "../components/CustomAlert";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Profile from "./Profile";
+import Category from "./Category";
 import styles from "../config/styles";
 import Upload from "./Upload";
 
@@ -36,6 +37,8 @@ const { width, height } = Dimensions.get("window");
 
 function Catalog() {
   const [navigate, setNavigate] = useState(0);
+  const [cat, setCat] = useState("");
+
   useEffect(() => {
     const backAction = () => {
       setNavigate(1);
@@ -66,7 +69,7 @@ function Catalog() {
           <BoltSemiBoldText style={sty.headText}>My Catalog</BoltSemiBoldText>
         </View>
         <View style={sty.subCon}>
-          <TouchableOpacity style={sty.biggrid} onPress={() => setNavigate(3)}>
+          <TouchableOpacity style={sty.biggrid} onPress={() => (setNavigate(3),setCat("Food"))}>
             <ImageBackground
               source={require("../assets/images/category/food.jpg")}
               resizeMode="cover"
@@ -76,7 +79,7 @@ function Catalog() {
             <BoltSemiBoldText style={sty.catText}>Foods</BoltSemiBoldText>
           </TouchableOpacity>
 
-          <TouchableOpacity style={sty.biggrid} onPress={() => setNavigate(3)}>
+          <TouchableOpacity style={sty.biggrid} onPress={() => (setNavigate(3),setCat("Drink"))}>
             <ImageBackground
               source={require("../assets/images/category/drinks.jpg")}
               resizeMode="cover"
@@ -86,7 +89,7 @@ function Catalog() {
             <BoltSemiBoldText style={sty.catText}>Drinks</BoltSemiBoldText>
           </TouchableOpacity>
 
-          <TouchableOpacity style={sty.biggrid} onPress={() => setNavigate(3)}>
+          <TouchableOpacity style={sty.biggrid} onPress={() => (setNavigate(3),setCat("Snack"))}>
             <ImageBackground
               source={require("../assets/images/category/snacks.jpg")}
               resizeMode="cover"
@@ -98,7 +101,7 @@ function Catalog() {
             </BoltSemiBoldText>
           </TouchableOpacity>
 
-          <TouchableOpacity style={sty.biggrid} onPress={() => setNavigate(3)}>
+          <TouchableOpacity style={sty.biggrid} onPress={() => (setNavigate(3),setCat("Grocery"))}>
             <ImageBackground
               source={require("../assets/images/category/grocery.jpg")}
               resizeMode="cover"
@@ -127,7 +130,7 @@ function Catalog() {
     ) : navigate == 2 ? (
       <Upload />
     ) : (
-      <Category />
+      <Category cat={cat}  />
     );
   }
 }

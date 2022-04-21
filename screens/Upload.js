@@ -25,6 +25,8 @@ import * as ImagePicker from "expo-image-picker";
 import AppTextInput from "../components/AppTextInput";
 import AppButton from "../components/AppButton";
 import ImageInput from "../components/ImageInput";
+import CustomAlert from "../components/CustomAlert";
+
 import Catalog from "./Catalog";
 const { width, height } = Dimensions.get("window");
 
@@ -35,6 +37,8 @@ function Upload({ navigation, route }) {
   const [price, setPrice] = useState("");
   const [des, setDes] = useState("");
   const [image, setImage] = useState("");
+    const [submitting, setSubmitting] = useState(false);
+
   // const [pic, setPic] = useState("../assets/profile.jpg");
   const [navigate, setNavigate] = useState(0);
   const [open, setOpen] = useState(false);
@@ -53,9 +57,34 @@ function Upload({ navigation, route }) {
     { label: "No", value: "No" },
   ]);
 
- useEffect(() => {
-   getData();
- }, []);
+  const [alerttext, setalerttext] = useState("");
+  const [stats, setstats] = useState("");
+  // const { storedCredentials, setStoredCredentials } =
+  //    useContext(credentialsContext);
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  const fadeIn = () => {
+    // Will change fadeAnim value to 1 in 5 seconds
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1500,
+      useNativeDriver: true, // Add This line
+    }).start();
+  };
+
+  const fadeOut = () => {
+    // Will change fadeAnim value to 0 in 3 seconds
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: true, // Add This line
+    }).start();
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const onChange = (event, selectedDate) => {
     const curentDate = selectedDate || date;
@@ -69,20 +98,20 @@ function Upload({ navigation, route }) {
     console.log(show);
   };
 
-const getData = async () => {
-  try {
-    const value = await AsyncStorage.getItem("@login_key");
-    const jsonvalue = JSON.parse(value);
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("@login_key");
+      const jsonvalue = JSON.parse(value);
 
-    console.log(jsonvalue);
-    setId(jsonvalue.id);
-  } catch (e) {
-    console.log(e);
-  }
-};
+      console.log(jsonvalue);
+      setId(jsonvalue.id);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const uploadProduct = () => {
-     let formdata = new FormData();
+    let formdata = new FormData();
     formdata.append("name", name);
     formdata.append("price", price);
     formdata.append("blogImage", image);
@@ -92,7 +121,7 @@ const getData = async () => {
     formdata.append("vegan", veganValue);
     // console.log(formdata);
 
-    const url = `https://glacial-harbor-84164.herokuapp.com/food/postFood/`;
+    const url = `https://floating-wildwood-95983.herokuapp.com/food/postFood/`;
     axios
       .post(url, formdata, {
         hedaers: {
@@ -104,26 +133,35 @@ const getData = async () => {
         const result = response.data;
         const { message, status, data } = result;
         console.log(data);
-
-        // if (status !== "SUCCESS") {
-        //   console.log("if: " + message, status);
-        // } else {
-        //     console.log(data[0]);
-
-        // }
+        if (status !== "SUCCESS") {
+          console.log("if: " + message, status);
+          setalerttext(message);
+          setstats("bad");
+          fadeIn();
+          setTimeout(() => {
+            fadeOut();
+          }, 3000);
+          setSubmitting(false);
+        } else {
+          setalerttext(message);
+          setstats("");
+          fadeIn();
+          setTimeout(() => {
+            fadeOut();
+          }, 3000);
+          setSubmitting(false);
+        }
       })
       .catch((error) => {
         console.log(error);
       });
-  }
-
+  };
 
   const sendImage = (id, credentials) => {
     setImage(credentials);
-     
   };
 
-  { 
+  {
     return navigate == 0 ? (
       <>
         <ScrollView style={styles.container}>
@@ -143,7 +181,14 @@ const getData = async () => {
             placeholder="Name Of Item"
             onChangeText={(text) => setName(text)}
           />
-
+          <Animated.View
+            style={{
+              opacity: fadeAnim,
+              width: "100%",
+            }}
+          >
+            <CustomAlert text={alerttext} status={stats} />
+          </Animated.View>
           <Text style={styles.text}>Price</Text>
           <AppTextInput
             placeholder="Price"
@@ -174,7 +219,7 @@ const getData = async () => {
               marginBottom: "5%",
               borderColor: "transparent",
               backgroundColor: colors.lightGray,
-              zIndex:1000
+              zIndex: 1000,
             }}
             zIndex={6000}
           />
@@ -191,7 +236,6 @@ const getData = async () => {
               marginBottom: "5%",
               borderColor: "transparent",
               backgroundColor: colors.lightGray,
-
             }}
           />
           {/* 
@@ -223,8 +267,8 @@ const getData = async () => {
     ) : (
       <Catalog />
     );
-          }
   }
+}
 const styles = StyleSheet.create({
   container: {
     paddingLeft: "5%",
@@ -256,7 +300,6 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     textAlign: "center",
   },
-
 });
 
 export default Upload;

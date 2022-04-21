@@ -9,19 +9,18 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-export default function OrderList() {
+export default function OrderList2() {
 	const [order, setOrder] = useState([]);
 
 	useEffect(() => {
 		getData();
 	}, []);
-
 	const getData = async () => {
 		try {
 			const value = await AsyncStorage.getItem("@login_key");
 			const jsonvalue = JSON.parse(value);
 
-			console.log(jsonvalue);
+			// console.log(jsonvalue);
 			getOrder(jsonvalue.id)
 		} catch (e) {
 			console.log(e);
@@ -30,21 +29,18 @@ export default function OrderList() {
 
 
 	const getOrder = (id) => {
-		const url = `https://floating-wildwood-95983.herokuapp.com/order/getMyOrder/${id}`;
+		const url = `https://floating-wildwood-95983.herokuapp.com/order/getMyOrderRequest/${id}`;
 		axios
 			.get(url)
 			.then((response) => {
 				const result = response.data;
 				setOrder(result)
-				console.log(response);
+				// console.log(order);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	}
-
-		// getData();
-
 	return (
 		<View style={tw`flex mt-4`}>
 			{

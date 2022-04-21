@@ -100,7 +100,7 @@ function Payment({ navigation, onPress, register, registerResponse }) {
     }
   };
 const fecth = (credentials) => {
-    const url = `https://glacial-harbor-84164.herokuapp.com/user/getdata/${credentials}`;
+    const url = `https://floating-wildwood-95983.herokuapp.com/user/getdata/${credentials}`;
     axios
       .get(url)
       .then((response) => {
@@ -126,7 +126,7 @@ const fecth = (credentials) => {
 
  const update = () => {
    console.log(id);
-    const url = `https://glacial-harbor-84164.herokuapp.com/updateprofile/payment/${id}`
+    const url = `https://floating-wildwood-95983.herokuapp.com/updateprofile/payment/${id}`
     axios
       .post(url, {card_num,card_date,card_cvv})
       .then((response) => {

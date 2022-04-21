@@ -3,10 +3,15 @@ import { View, Image, TouchableOpacity } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import { BoltLightText, BoltSemiBoldText } from "../CustomText";
+import intl from "intl";
+import 'intl/locale-data/jsonp/en';
 
 export default function OrderCard({ data }) {
-	const { name, price, rating, discount, image, date, status } = data;
-
+	const { foodname, price, rating, discount, image, date, deliveryStatus } = data;
+	const formatter = new intl.NumberFormat('en-US', {
+		style: 'currency',
+		currency: 'NGN',
+	}); 
 	return (
 		<View
 			style={tw`flex w-full flex-row border-b border-gray-200 mb-5 pb-5 justify-between`}
@@ -14,7 +19,7 @@ export default function OrderCard({ data }) {
 			<View style={tw`flex flex-row`}>
 				<TouchableOpacity style={tw`w-16 h-16`}>
 					<Image
-						source={image}
+						source={{uri:image}}
 						style={tw`w-full h-full rounded-xl`}
 					/>
 				</TouchableOpacity>
@@ -24,21 +29,19 @@ export default function OrderCard({ data }) {
 							{date}
 						</BoltLightText>
 						<BoltLightText style={tw`text-black mt-1.5`}>
-							{name.length > 30
-								? name.substring(0, 30 - 3) + "..."
-								: name}
+							{foodname}
 						</BoltLightText>
 					</View>
 				</View>
 			</View>
 
-			<View style={tw`flex-col items-center flex`}>
+			<View style={[tw`flex-col items-center flex`,{ width:"35%"}]}>
 				<View style={tw`my-auto`}>
 					<BoltLightText style={tw`text-sm text-gray-500`}>
-						{status}
+						{deliveryStatus == "false"? "Not Delivered":"Delivered"}
 					</BoltLightText>
 					<BoltLightText style={tw`text-black mt-1.5`}>
-						GH₵{price}
+						{formatter.format(price).replace("NGN", "₦")}
 					</BoltLightText>
 				</View>
 			</View>

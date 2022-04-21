@@ -106,7 +106,7 @@ function ImageInput({ sendImage }) {
   };
 
   const fecth = (credentials) => {
-    const url = `https://glacial-harbor-84164.herokuapp.com/user/getdata/${credentials}`;
+    const url = `https://floating-wildwood-95983.herokuapp.com/user/getdata/${credentials}`;
     axios
       .get(url)
       .then((response) => {
@@ -125,7 +125,7 @@ function ImageInput({ sendImage }) {
       const jsonvalue = JSON.parse(value);
 
       fecth(jsonvalue.email);
-    } catch (e) {
+    } catch (e) { 
       console.log(e);
     }
   };

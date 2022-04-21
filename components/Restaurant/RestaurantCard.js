@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import { BoltLightText, BoltSemiBoldText } from "../CustomText";
-
+import intl from "intl";
+import 'intl/locale-data/jsonp/en';
 export default function RestaurantCard({ data, navigation }) {
-	const { name, price, rating, discount, image, menu } = data;
+	const { name, price, image,description,vegan,vendorsId } = data;
+	const [discount, setdiscount] = useState(true);
+	const formatter = new intl.NumberFormat('en-US', {
+		style: 'currency',
+		currency: 'NGN',
+	});
 
 	return (
 		<View style={tw`flex-col mr-4 justify-between w-full`}>
@@ -19,7 +25,7 @@ export default function RestaurantCard({ data, navigation }) {
 						}}
 					>
 						<BoltSemiBoldText style={tw`text-xs text-red-500`}>
-							-{discount}
+							-20%
 						</BoltSemiBoldText>
 					</View>
 				)}
@@ -39,20 +45,30 @@ export default function RestaurantCard({ data, navigation }) {
 					style={tw`w-full h-full`}
 					delayPressIn={150}
 					onPress={() =>
+						// navigation.navigate("RestaurantInfo", {
+						// 	screen: "RestaurantInfo",
+						// 	params: {
+						// 		name,
+						// 		banner: { uri: image },
+						// 		price,
+						// 	},
+
+
+						// })
 						navigation.navigate("Restaurant", {
 							screen: "RestaurantPage",
 							params: {
-								banner: image,
+								banner: {uri:image},
 								name,
-								rating,
+								description,vegan ,
 								price,
-								menu,
+								vendorsId,
 							},
 						})
 					}
 				>
 					<Image
-						source={image}
+						source={{ uri: image }}
 						style={tw`w-full h-full rounded-lg`}
 					/>
 				</TouchableOpacity>
@@ -71,13 +87,13 @@ export default function RestaurantCard({ data, navigation }) {
 					<View style={tw`flex flex-row items-center`}>
 						<IonIcons name="ios-star" size={13} color="#000" />
 						<BoltSemiBoldText style={tw`text-lg ml-1`}>
-							{rating}
+							80
 						</BoltSemiBoldText>
 					</View>
 				</View>
 				<View style={tw`flex flex-row items-center`}>
 					<BoltLightText style={tw`text-sm`}>
-						NGN₦{price}
+						{formatter.format(price).replace("NGN", "₦")}
 					</BoltLightText>
 				</View>
 			</View>

@@ -8,6 +8,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeTabs from "./navigation/Tabs";
 import RestaurantStackScreen from "./navigation/Restaurant";
 import LoginScreen from "./screens/LoginComp";
+import MyCoolScrollViewComponent from "./screens/MyCoolScrollViewComponent";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createStackNavigator();
@@ -63,6 +65,6 @@ export default function App() {
         alertmeGood={alertmegood}
       />
       );
-
+      // return <MyCoolScrollViewComponent/>
   }
 }
