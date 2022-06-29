@@ -41,7 +41,7 @@ function Payment({ navigation, onPress, register, registerResponse }) {
   const [onLogin, setOnLogin] = useState(0);
   const [navigate, setNavigate] = useState(0);
 
-    const [card_num, setCard_num] = useState("...");
+  const [card_num, setCard_num] = useState("...");
   const [card_date, setCard_date] = useState("...");
   const [card_cvv, setCard_cvv] = useState("...");
   const [id, setId] = useState("");
@@ -87,7 +87,7 @@ function Payment({ navigation, onPress, register, registerResponse }) {
     { label: "Tour Guide", value: 1 },
   ];
 
-   const getData = async () => {
+  const getData = async () => {
     try {
       const value = await AsyncStorage.getItem("@login_key");
       const jsonvalue = JSON.parse(value);
@@ -100,7 +100,7 @@ function Payment({ navigation, onPress, register, registerResponse }) {
     }
   };
 const fecth = (credentials) => {
-    const url = `https://glacial-harbor-84164.herokuapp.com/user/getdata/${credentials}`;
+    const url = `https://floating-wildwood-95983.herokuapp.com/user/getdata/${credentials}`;
     axios
       .get(url)
       .then((response) => {
@@ -126,7 +126,7 @@ const fecth = (credentials) => {
 
  const update = () => {
    console.log(id);
-    const url = `https://glacial-harbor-84164.herokuapp.com/updateprofile/payment/${id}`
+    const url = `https://floating-wildwood-95983.herokuapp.com/updateprofile/payment/${id}`
     axios
       .post(url, {card_num,card_date,card_cvv})
       .then((response) => {
