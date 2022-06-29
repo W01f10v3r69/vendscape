@@ -5,7 +5,9 @@ import {
   Text,
   View,
   TextInput,
+  Dimensions,
   FlatList,
+  ImageBackground,
   TouchableOpacity,
 } from "react-native";
 import tw from "tailwind-react-native-classnames";
@@ -27,10 +29,12 @@ import Payment from "./Payment";
 import Setting from "./Setting";
 import Upload from "./Upload";
 import Catalog from "./Catalog";
+const { width, height } = Dimensions.get("window");
 
 export default function Profile() {
   const [search, setSearch] = useState("");
   const [name, setName] = useState("...");
+  const [Banner_Image, setBanner_Image] = useState("");
   const [phone, setPhone] = useState("...");
   const [navigate, setNavigate] = useState("0");
   const [logout, setlogout] = React.useState(false);
@@ -54,13 +58,14 @@ export default function Profile() {
     }
   };
   const fecth = (credentials) => {
-    const url = `https://glacial-harbor-84164.herokuapp.com/user/getdata/${credentials}`;
+    const url = `https://floating-wildwood-95983.herokuapp.com/user/getdata/${credentials}`;
     axios
       .get(url)
       .then((response) => {
         const result = response.data;
 
         setName(result[0].name);
+        setBanner_Image(result[0].Banner_Image);
         result[0].phone == 0
           ? setPhone("Set Your Phone Number in Settings")
           : setPhone(result[0].phone);
@@ -82,6 +87,12 @@ export default function Profile() {
       >
         <StatusBar style="auto" />
         <View style={tw`flex flex-col mx-5 mt-5`}>
+        <ImageBackground
+              source={{uri:Banner_Image}}
+              resizeMode="cover"
+              style={sty.grid}
+              imageStyle={{ width: (90 * width) / 100,height:(30 * width) / 100, borderRadius: 10 }}
+            ></ImageBackground>
           <BoltSemiBoldText style={tw`text-2xl`}>{name}</BoltSemiBoldText>
           <BoltLightText style={tw`text-gray-500`}>{phone}</BoltLightText>
         </View>
@@ -147,3 +158,13 @@ export default function Profile() {
     );
   }
 }
+const sty = StyleSheet.create({
+
+  grid: {
+    width: (30 * width) / 100,
+    height: (30 * width) / 100,
+    borderRadius: 100,
+    // backgroundColor: "blue",
+  },
+
+});

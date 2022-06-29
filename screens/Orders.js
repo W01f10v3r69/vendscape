@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
 	StyleSheet,
-	Text,
+	Dimensions,
 	View,
 	TextInput,
 	FlatList,
@@ -18,27 +18,59 @@ import Constants from "expo-constants";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { popularFoods } from "../constants";
 import OrderList from "../components/Order/OrderList";
+import OrderList2 from "../components/Order/OrderList2";
+const { width, height } = Dimensions.get("window");
 
 export default function Orders() {
-	const [search, setSearch] = useState("");
+	const [changeTabs, setchangeTabs] = useState(1);
+	const [colorChange, setcolorChange] = useState("black");
+	const [colorChange1, setcolorChange1] = useState("gray");
 
+	const tabs = (a)=>{
+		setchangeTabs(a)
+		if (a==1) {
+			setcolorChange("black")
+			setcolorChange1("gray")
+		} else {
+			setcolorChange("gray")
+			setcolorChange1("black")
+		}
+	}
 	return (
-		<View
-			style={{
-				...tw`flex pt-2`,
-				marginTop: Constants.statusBarHeight,
-			}}
-		>
-			<StatusBar style="auto" />
-			<View style={tw`flex flex-col mx-5 mt-5`}>
-				<BoltSemiBoldText style={tw`text-2xl`}>
-					My orders
-				</BoltSemiBoldText>
-			</View>
+    <View
+      style={{
+        ...tw`flex pt-2`,
+        marginTop: Constants.statusBarHeight,
+      }}
+    >
+      <StatusBar style="auto" />
+      <View
+        style={[
+          tw`flex flex-col mx-5 mt-5`,
+          { flexDirection: "row", justifyContent: "space-around" },
+        ]}
+      >
+        <TouchableOpacity onPress={() => tabs(1)}>
+          <BoltSemiBoldText
+            style={{ color: colorChange, fontSize: (7 * width) / 100 }}
+          >
+            My Orders
+          </BoltSemiBoldText>
+        </TouchableOpacity>
 
-			<View style={tw``}>
-				<OrderList />
-			</View>
-		</View>
-	);
+        <TouchableOpacity onPress={() => tabs(2)}>
+          <BoltSemiBoldText
+            style={{ color: colorChange1, fontSize: (7 * width) / 100 }}
+          >
+            My Requests
+          </BoltSemiBoldText>
+        </TouchableOpacity>
+      </View>
+
+      <View style={tw``}>
+        { changeTabs == 1 ?  <OrderList /> : <OrderList2 />}
+       {/* <OrderList /> */}
+      </View>
+    </View>
+  );
 }

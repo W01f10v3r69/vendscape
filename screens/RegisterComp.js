@@ -97,7 +97,7 @@ function RegisterScreen({ navigation, onPress, register, registerResponse }) {
     let email = credentials.email
     let name = credentials.name
     let photoUrl = "https://picsum.photos/200/300";
-    const url = "https://glacial-harbor-84164.herokuapp.com/user/signup";
+    const url = "https://floating-wildwood-95983.herokuapp.com/user/signup";
     axios
       .post(url, credentials)
       .then((response) => {
@@ -124,7 +124,7 @@ function RegisterScreen({ navigation, onPress, register, registerResponse }) {
           }, 3000);
           setSubmitting(false);
           // storeData(JSON.stringify({ email, name, photoUrl }));
-           storeData(JSON.stringify({ email, name, photoUrl,id:data._id }));
+          storeData(JSON.stringify({ email, name, photoUrl,id:data._id }));
           register();
           // checklogin()
         }

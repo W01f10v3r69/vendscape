@@ -29,7 +29,7 @@ import RegisterScreen from "./RegisterComp";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
-  password: Yup.string().required().min(8).label("Password"),
+  password: Yup.string().required().min(8).label("Password"), 
 });
 
 function LoginScreen({ navigation,onPress,login,register,registerResponse }) {
@@ -91,7 +91,7 @@ function LoginScreen({ navigation,onPress,login,register,registerResponse }) {
 
   const signin = (credentials) => {
     console.log(credentials);
-    const url = "https://glacial-harbor-84164.herokuapp.com/user/signin/";
+    const url = "https://floating-wildwood-95983.herokuapp.com/user/signin/";
     axios
       .post(url, credentials)
       .then((response) => {

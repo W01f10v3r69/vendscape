@@ -17,8 +17,8 @@ const { width, height } = Dimensions.get("window");
 
 import colors from "../config/colors";
 
-function ImageInput({ sendImage }) {
-  const [image, setImage] = useState(null);
+function ImageInput({ sendImage,banner }) {
+  const [image, setImage] = useState(banner);
   const [type, setType] = useState(null);
   const [idenfize, setIdentifize] = useState("../assets/profile.jpg");
   const [iden, setId] = useState("");
@@ -106,7 +106,7 @@ function ImageInput({ sendImage }) {
   };
 
   const fecth = (credentials) => {
-    const url = `https://glacial-harbor-84164.herokuapp.com/user/getdata/${credentials}`;
+    const url = `https://floating-wildwood-95983.herokuapp.com/user/getdata/${credentials}`;
     axios
       .get(url)
       .then((response) => {
@@ -125,7 +125,7 @@ function ImageInput({ sendImage }) {
       const jsonvalue = JSON.parse(value);
 
       fecth(jsonvalue.email);
-    } catch (e) {
+    } catch (e) { 
       console.log(e);
     }
   };

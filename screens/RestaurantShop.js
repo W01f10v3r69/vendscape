@@ -241,7 +241,7 @@ const RestaurantScreen = ({ navigation, route }) => {
 							>
 								{name}
 							</BoltSemiBoldText>
- 
+
 							<View style={tw`flex flex-row items-center`}>
 								<Ionicons
 									name="ios-star"
